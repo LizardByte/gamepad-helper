@@ -1,0 +1,12 @@
+---
+version: 2
+build:
+  os: "ubuntu-24.04"
+  tools:
+    nodejs: "22"
+  commands:
+    - 'echo "output directory: ${READTHEDOCS_OUTPUT}html"'
+    - npm install
+    - npm run generate-docs
+    # debug output
+    - cd ${READTHEDOCS_OUTPUT}html && ls -la -R
