@@ -6,6 +6,7 @@ class GamepadHelper {
     constructor() {
         /**
          * Controller Types
+         * @type {Object}
          * @property {string} XBOX - Xbox family of controllers
          * @property {string} PLAYSTATION - PlayStation family of controllers
          * @property {string} SWITCH - Nintendo Switch controllers
@@ -21,9 +22,7 @@ class GamepadHelper {
         /**
          * Exact Gamepad Mappings
          * This object maps specific gamepad API IDs to controller types and names.
-         * @property {string} name - The name of the controller
-         * @property {Array<string>} gamepad_api_ids - Array of gamepad API IDs for exact matching
-         * @property {string} type - The type of controller (XBOX, PLAYSTATION, SWITCH, STANDARD)
+         * @type {Object.<number, {name: string, gamepad_api_ids: string[], type: string}>}
          */
         this.exactGamepadMappings = {
             0: {
@@ -117,6 +116,7 @@ class GamepadHelper {
         /**
          * Exact ID Lookup
          * This object maps gamepad API IDs to their respective controller mappings.
+         * @type {Object.<string, {name: string, gamepad_api_ids: string[], type: string}>}
          */
         this.exactIdLookup = {};
         Object.values(this.exactGamepadMappings).forEach(mapping => {
@@ -127,9 +127,8 @@ class GamepadHelper {
 
         /**
          * Controller Mappings
-         * This object maps controller types to their respective button and axis mappings.
-         * @property {Object} buttonMap - Maps button indices to button names
-         * @property {Object} axisMap - Maps axis indices to axis names
+         * Maps controller types to their respective button and axis mappings.
+         * @type {Object.<string, {buttonMap: Object.<number, string>, axisMap: Object.<number, string>}>}
          */
         this.controllerMappings = {
             // Xbox controllers
@@ -236,12 +235,12 @@ class GamepadHelper {
 
     /**
      * Get the image path for a specific button on a controller
-     * @param controllerType The type of controller (XBOX, PLAYSTATION, SWITCH)
-     * @param buttonIndex The index of the button (int)
-     * @param basePath The base path for the images, default is '/assets/img/gamepads/'
-     * @param buttonColor The color of the button (Black or White), default is 'White'
-     * @param buttonType The type of button (Outline, Solid, Full Solid), default is 'Outline'
-     * @returns {null|string} The path to the button image or null if not found
+     * @param {string} controllerType - The type of controller (XBOX, PLAYSTATION, SWITCH)
+     * @param {number} buttonIndex - The index of the button
+     * @param {string} [basePath='/assets/img/gamepads/'] - The base path for the images
+     * @param {string} [buttonColor='White'] - The color of the button ('Black' or 'White')
+     * @param {string} [buttonType='Outline'] - The type of button ('Outline', 'Solid', 'Full Solid')
+     * @returns {string|null} The path to the button image or null if not found
      */
     getButtonImagePath(
         controllerType,
@@ -352,8 +351,8 @@ class GamepadHelper {
 
     /**
      * Get gamepad information based on the gamepad ID
-     * @param gamepadId The ID of the gamepad as given by the Gamepad API
-     * @returns {{type: string, name: string}|{type, name}}
+     * @param {string|null} gamepadId - The ID of the gamepad as given by the Gamepad API
+     * @returns {{type: string, name: string}} Controller type and name information
      */
     getGamepadInfo(gamepadId) {
         if (!gamepadId) {
@@ -380,8 +379,8 @@ class GamepadHelper {
 
     /**
      * Detect the controller type based on the gamepad ID
-      * @param gamepadId The ID of the gamepad as given by the Gamepad API
-     * @returns {string|*} The type of controller (XBOX, PLAYSTATION, SWITCH, STANDARD)
+     * @param {string|null} gamepadId - The ID of the gamepad as given by the Gamepad API
+     * @returns {string} The type of controller (XBOX, PLAYSTATION, SWITCH, STANDARD)
      */
     detectControllerType(gamepadId) {
         return this.getGamepadInfo(gamepadId).type;
@@ -389,9 +388,9 @@ class GamepadHelper {
 
     /**
      * Get button name for given controller type and button index
-     * @param controllerType The type of controller (XBOX, PLAYSTATION, SWITCH)
-     * @param buttonIndex The index of the button (int)
-     * @returns {*|string} The name of the button (e.g., 'A', 'B', 'X', etc.)
+     * @param {string} controllerType - The type of controller (XBOX, PLAYSTATION, SWITCH, STANDARD)
+     * @param {number} buttonIndex - The index of the button
+     * @returns {string} The name of the button (e.g., 'A', 'B', 'X', etc.)
      */
     getButtonName(controllerType, buttonIndex) {
         const mapping = this.controllerMappings[controllerType] || this.controllerMappings[this.CONTROLLER_TYPES.STANDARD];
@@ -400,9 +399,9 @@ class GamepadHelper {
 
     /**
      * Get axis name for given controller type and axis index
-     * @param controllerType The type of controller (XBOX, PLAYSTATION, SWITCH)
-     * @param axisIndex The index of the axis (int)
-     * @returns {Object|*|string} The name of the axis (e.g., 'Left Stick X', 'Right Stick Y', etc.)
+     * @param {string} controllerType - The type of controller (XBOX, PLAYSTATION, SWITCH, STANDARD)
+     * @param {number} axisIndex - The index of the axis
+     * @returns {string} The name of the axis (e.g., 'Left Stick X', 'Right Stick Y', etc.)
      */
     getAxisName(controllerType, axisIndex) {
         const mapping = this.controllerMappings[controllerType] || this.controllerMappings[this.CONTROLLER_TYPES.STANDARD];
@@ -411,7 +410,7 @@ class GamepadHelper {
 
     /**
      * Check if vibration is supported on the gamepad
-     * @param gamepad The gamepad object from the Gamepad API
+     * @param {Gamepad|null} gamepad - The gamepad object from the Gamepad API
      * @returns {boolean} True if vibration is supported, false otherwise
      */
     isVibrationSupported(gamepad) {
@@ -423,8 +422,8 @@ class GamepadHelper {
 
     /**
      * Get vibration capabilities of the gamepad
-     * @param gamepad
-     * @returns {{supported: boolean, type: string}|{supported: boolean, type: null}}
+     * @param {Gamepad|null} gamepad - The gamepad object from the Gamepad API
+     * @returns {{supported: boolean, type: string|null}} Vibration capabilities information
      */
     getVibrationCapabilities(gamepad) {
         if (!gamepad || !gamepad.vibrationActuator) {
@@ -439,9 +438,13 @@ class GamepadHelper {
 
     /**
      * Vibrate the gamepad
-     * @param gamepad The gamepad object from the Gamepad API
-     * @param options {Object} Options for vibration
-     * @returns {Promise<never>|Promise<GamepadHapticsResult>}
+     * @param {Gamepad|null} gamepad - The gamepad object from the Gamepad API
+     * @param {Object} [options={}] - Options for vibration
+     * @param {number} [options.weakMagnitude=0.5] - Weak rumble magnitude (0-1)
+     * @param {number} [options.strongMagnitude=0.5] - Strong rumble magnitude (0-1)
+     * @param {number} [options.duration=1000] - Duration in milliseconds
+     * @param {number} [options.startDelay=0] - Start delay in milliseconds
+     * @returns {Promise<GamepadHapticsResult|Error>} Promise that resolves when vibration completes
      */
     vibrate(gamepad, options = {}) {
         const { weakMagnitude = 0.5, strongMagnitude = 0.5, duration = 1000, startDelay = 0 } = options;
@@ -497,8 +500,8 @@ class GamepadHelper {
 
     /**
      * Stop vibration on the gamepad
-     * @param gamepad The gamepad object from the Gamepad API
-     * @returns {Promise<never>|Promise<GamepadHapticsResult>|Promise<never>}
+     * @param {Gamepad|null} gamepad - The gamepad object from the Gamepad API
+     * @returns {Promise<GamepadHapticsResult|Error>} Promise that resolves when vibration stops
      */
     stopVibration(gamepad) {
         if (gamepad && gamepad.vibrationActuator) {
@@ -510,7 +513,7 @@ class GamepadHelper {
 
     /**
      * Get all connected gamepads
-     * @returns {Array} Array of connected gamepad objects
+     * @returns {Gamepad[]} Array of connected gamepad objects
      */
     getConnectedGamepads() {
         if (!this.isSupported()) return [];
