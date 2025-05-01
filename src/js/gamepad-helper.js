@@ -468,12 +468,14 @@ class GamepadHelper {
 
             case 'vibration':
                 // Some devices just have a simple vibration effect
-                const magnitude = Math.max(weakMagnitude, strongMagnitude);
-                return actuator.playEffect("vibration", {
-                    startDelay: startDelay,
-                    duration: duration,
-                    magnitude: magnitude
-                });
+                {
+                    const magnitude = Math.max(weakMagnitude, strongMagnitude);
+                    return actuator.playEffect("vibration", {
+                        startDelay: startDelay,
+                        duration: duration,
+                        magnitude: magnitude
+                    });
+                }
 
             default:
                 // Try the default effect type for unknown actuators
@@ -486,7 +488,7 @@ class GamepadHelper {
                         magnitude: Math.max(weakMagnitude, strongMagnitude)
                     });
                 } catch (e) {
-                    console.warn(`Attempted to use unknown actuator type: ${actuatorType}`);
+                    console.warn(`Attempted to use unknown actuator type: ${actuatorType}\nError: ${e}`);
                     // Fallback to dual-rumble as it's the most common
                     return actuator.playEffect("dual-rumble", {
                         startDelay: startDelay,
@@ -522,3 +524,11 @@ class GamepadHelper {
         return Array.from(gamepads).filter(gamepad => gamepad !== null);
     }
 }
+
+// Expose to the global scope
+if (typeof window !== 'undefined') {
+    window.GamepadHelper = GamepadHelper;
+}
+
+// Export the GamepadHelper class
+module.exports = GamepadHelper;
