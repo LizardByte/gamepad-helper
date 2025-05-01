@@ -414,10 +414,7 @@ class GamepadHelper {
      * @returns {boolean} True if vibration is supported, false otherwise
      */
     isVibrationSupported(gamepad) {
-        if (!gamepad || !gamepad.vibrationActuator) return false;
-
-        // Return true for any actuator type, not just dual-rumble
-        return true;
+        return !(!gamepad || !gamepad.vibrationActuator);
     }
 
     /**
