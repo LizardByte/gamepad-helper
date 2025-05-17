@@ -80,6 +80,7 @@ class GamepadHelper {
             5: {
                 name: "Xbox 360",
                 gamepad_api_ids: [
+                    "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
                 ],
                 type: this.CONTROLLER_TYPES.XBOX
             },
