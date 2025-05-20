@@ -23,7 +23,7 @@
   "devDependencies": {
     "@babel/core": "7.27.1",
     "@babel/preset-env": "7.27.2",
-    "@codecov/webpack-plugin": "1.9.0",
+    "@codecov/webpack-plugin": "1.9.1",
     "@eslint/js": "9.27.0",
     "@jest/globals": "29.7.0",
     "@lizardbyte/shared-web": "2025.426.211939",
