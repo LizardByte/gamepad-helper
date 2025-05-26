@@ -26,7 +26,7 @@
     "@codecov/webpack-plugin": "1.9.1",
     "@eslint/js": "9.27.0",
     "@jest/globals": "29.7.0",
-    "@lizardbyte/shared-web": "2025.426.211939",
+    "@lizardbyte/shared-web": "2025.526.13329",
     "babel-loader": "10.0.0",
     "clean-jsdoc-theme": "4.3.0",
     "cross-env": "7.0.3",
