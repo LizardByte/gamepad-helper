@@ -21,12 +21,12 @@
     "README.md"
   ],
   "devDependencies": {
-    "@babel/core": "7.27.4",
+    "@babel/core": "7.27.7",
     "@babel/preset-env": "7.27.2",
     "@codecov/webpack-plugin": "1.9.1",
     "@eslint/js": "9.29.0",
     "@jest/globals": "30.0.3",
-    "@lizardbyte/shared-web": "2025.620.225139",
+    "@lizardbyte/shared-web": "2025.626.181239",
     "babel-loader": "10.0.0",
     "clean-jsdoc-theme": "4.3.0",
     "cross-env": "7.0.3",
