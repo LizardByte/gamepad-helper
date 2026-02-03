@@ -16,7 +16,7 @@ Helper library for Gamepad API. Helps with detecting type of gamepad and mapping
 
 1. Add the dependency to your package.json file:
    ```bash
-   npm install @lizardbyte/gamepad-helper
+   npm install @lizardbyte/gamepad-helper --ignore-scripts
    ```
 
 ### Install via GitHub Package Registry
@@ -35,7 +35,7 @@ Helper library for Gamepad API. Helps with detecting type of gamepad and mapping
 
 2. Add the dependency to your package.json file:
    ```bash
-   npm install @lizardbyte/gamepad-helper
+   npm install @lizardbyte/gamepad-helper --ignore-scripts
    ```
 
 ## Attribution

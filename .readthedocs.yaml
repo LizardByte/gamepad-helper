@@ -6,7 +6,7 @@ build:
     nodejs: "22"
   commands:
     - 'echo "output directory: ${READTHEDOCS_OUTPUT}html"'
-    - npm install
+    - npm install --ignore-scripts
     - npm run generate-docs
     # debug output
     - cd ${READTHEDOCS_OUTPUT}html && ls -la -R
