@@ -26,7 +26,7 @@
     "@codecov/webpack-plugin": "1.9.1",
     "@eslint/js": "10.0.1",
     "@jest/globals": "30.3.0",
-    "@lizardbyte/shared-web": "2026.219.33142",
+    "@lizardbyte/shared-web": "2026.314.32913",
     "babel-loader": "10.1.1",
     "clean-jsdoc-theme": "4.3.0",
     "cross-env": "10.1.0",
@@ -41,7 +41,7 @@
     "npm-run-all": "4.1.5",
     "postcss": "8.5.8",
     "webpack": "5.105.4",
-    "webpack-cli": "6.0.1",
+    "webpack-cli": "7.0.0",
     "webpack-dev-server": "5.2.3"
   },
   "jest": {
