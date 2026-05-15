@@ -1,7 +1,7 @@
 # gamepad-helper
 
 [![GitHub stars](https://img.shields.io/github/stars/lizardbyte/gamepad-helper.svg?logo=github&style=for-the-badge)](https://github.com/LizardByte/gamepad-helper)
-[![GitHub Workflow Status (CI)](https://img.shields.io/github/actions/workflow/status/lizardbyte/gamepad-helper/ci.yml.svg?branch=master&label=CI%20build&logo=github&style=for-the-badge)](https://github.com/LizardByte/gamepad-helper/actions/workflows/ci.yml?query=branch%3Amaster)
+[![GitHub Workflow Status (CI)](https://img.shields.io/github/actions/workflow/status/lizardbyte/gamepad-helper/_ci-node.yml.svg?branch=master&label=CI%20build&logo=github&style=for-the-badge)](https://github.com/LizardByte/gamepad-helper/actions/workflows/_ci-node.yml?query=branch%3Amaster)
 [![Codecov](https://img.shields.io/codecov/c/gh/LizardByte/gamepad-helper?token=Le2czL1b6e&style=for-the-badge&logo=codecov&label=codecov)](https://codecov.io/gh/LizardByte/gamepad-helper)
 [![NPM Monthly Downloads](https://img.shields.io/npm/dm/%40lizardbyte%2Fgamepad-helper?style=for-the-badge&logo=npm&label=npm%20downloads/m)](https://www.npmjs.com/package/@lizardbyte/gamepad-helper)
 [![NPM Version](https://img.shields.io/npm/v/%40lizardbyte%2Fgamepad-helper?style=for-the-badge&logo=npm&label=npm%20version)](https://www.npmjs.com/package/@lizardbyte/gamepad-helper)
