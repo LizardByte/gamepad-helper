@@ -38,7 +38,7 @@
     "jest-junit": "17.0.0",
     "jsdoc": "4.0.5",
     "node-fetch": "3.3.2",
-    "npm-run-all2": "8.0.4",
+    "npm-run-all2": "9.0.0",
     "postcss": "8.5.14",
     "webpack": "5.106.2",
     "webpack-cli": "7.0.2",
