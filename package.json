@@ -41,7 +41,7 @@
     "npm-run-all2": "9.0.1",
     "postcss": "8.5.15",
     "webpack": "5.107.2",
-    "webpack-cli": "7.0.2",
+    "webpack-cli": "7.0.3",
     "webpack-dev-server": "5.2.4"
   },
   "jest": {
