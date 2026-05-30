@@ -14,7 +14,7 @@ describe('GamepadHelper', () => {
 
     beforeEach(() => {
         // Setup basic mock of navigator.getGamepads
-        global.navigator.getGamepads = jest.fn();
+        globalThis.navigator.getGamepads = jest.fn();
 
         // Create a new helper instance before each test
         helper = new GamepadHelper();
@@ -24,7 +24,7 @@ describe('GamepadHelper', () => {
             id: "Xbox Wireless Controller",
             index: 0,
             connected: true,
-            buttons: Array(17).fill({ pressed: false, value: 0 }),
+            buttons: new Array(17).fill({ pressed: false, value: 0 }),
             axes: [0, 0, 0, 0],
             mapping: "standard",
             vibrationActuator: {
@@ -65,7 +65,7 @@ describe('GamepadHelper', () => {
         });
 
         test('returns false when Gamepad API is not supported', () => {
-            delete global.navigator.getGamepads;
+            delete globalThis.navigator.getGamepads;
             expect(helper.isSupported()).toBe(false);
         });
     });
@@ -291,13 +291,13 @@ describe('GamepadHelper', () => {
 
     describe('getConnectedGamepads', () => {
         test('returns empty array when API not supported', () => {
-            delete global.navigator.getGamepads;
+            delete globalThis.navigator.getGamepads;
             expect(helper.getConnectedGamepads()).toEqual([]);
         });
 
         test('returns array of connected gamepads', () => {
             const mockGamepads = [mockGamepad, null, { id: 'gamepad-2', index: 2 }, null];
-            global.navigator.getGamepads.mockReturnValue(mockGamepads);
+            globalThis.navigator.getGamepads.mockReturnValue(mockGamepads);
 
             const result = helper.getConnectedGamepads();
             expect(result).toEqual([mockGamepad, { id: 'gamepad-2', index: 2 }]);

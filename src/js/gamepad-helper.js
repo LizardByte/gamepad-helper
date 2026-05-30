@@ -334,8 +334,9 @@ class GamepadHelper {
         };
 
         // Check if we have an image mapping for this controller and button
-        if (imageMappings[controllerType] && imageMappings[controllerType].buttons[buttonIndex]) {
-            return basePath + imageMappings[controllerType].folder + imageMappings[controllerType].buttons[buttonIndex];
+        const imageMapping = imageMappings[controllerType];
+        if (imageMapping?.buttons[buttonIndex]) {
+            return basePath + imageMapping.folder + imageMapping.buttons[buttonIndex];
         }
 
         // Return null if no image is available
@@ -406,7 +407,7 @@ class GamepadHelper {
      */
     getAxisName(controllerType, axisIndex) {
         const mapping = this.controllerMappings[controllerType] || this.controllerMappings[this.CONTROLLER_TYPES.STANDARD];
-        return mapping.axisMap && mapping.axisMap[axisIndex] || `Axis ${axisIndex}`;
+        return mapping.axisMap?.[axisIndex] || `Axis ${axisIndex}`;
     }
 
     /**
@@ -415,7 +416,7 @@ class GamepadHelper {
      * @returns {boolean} True if vibration is supported, false otherwise
      */
     isVibrationSupported(gamepad) {
-        return !(!gamepad || !gamepad.vibrationActuator);
+        return !!gamepad?.vibrationActuator;
     }
 
     /**
@@ -424,7 +425,7 @@ class GamepadHelper {
      * @returns {{supported: boolean, type: string|null}} Vibration capabilities information
      */
     getVibrationCapabilities(gamepad) {
-        if (!gamepad || !gamepad.vibrationActuator) {
+        if (!gamepad?.vibrationActuator) {
             return { supported: false, type: null };
         }
 
@@ -447,7 +448,7 @@ class GamepadHelper {
     vibrate(gamepad, options = {}) {
         const { weakMagnitude = 0.5, strongMagnitude = 0.5, duration = 1000, startDelay = 0 } = options;
 
-        if (!gamepad || !gamepad.vibrationActuator) {
+        if (!gamepad?.vibrationActuator) {
             return Promise.reject(new Error('Vibration not supported on this gamepad'));
         }
 
@@ -504,7 +505,7 @@ class GamepadHelper {
      * @returns {Promise<GamepadHapticsResult|Error>} Promise that resolves when vibration stops
      */
     stopVibration(gamepad) {
-        if (gamepad && gamepad.vibrationActuator) {
+        if (gamepad?.vibrationActuator) {
             return this.vibrate(gamepad, { weakMagnitude: 0, strongMagnitude: 0 });
         }
 
@@ -524,8 +525,8 @@ class GamepadHelper {
 }
 
 // Expose to the global scope
-if (typeof window !== 'undefined') {
-    window.GamepadHelper = GamepadHelper;
+if (globalThis.window) {
+    globalThis.GamepadHelper = GamepadHelper;
 }
 
 // Export the GamepadHelper class

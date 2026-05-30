@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const { codecovWebpackPlugin } = require("@codecov/webpack-plugin");
 
 let production = process.env.NODE_ENV === 'production';
