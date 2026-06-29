@@ -39,7 +39,7 @@
     "jsdoc": "4.0.5",
     "node-fetch": "3.3.2",
     "npm-run-all2": "9.0.2",
-    "postcss": "8.5.15",
+    "postcss": "8.5.16",
     "webpack": "5.108.1",
     "webpack-cli": "7.1.0",
     "webpack-dev-server": "5.2.5"
