@@ -31,7 +31,7 @@
     "clean-jsdoc-theme": "4.3.3",
     "cross-env": "10.1.0",
     "eslint": "10.6.0",
-    "eslint-plugin-jest": "29.15.3",
+    "eslint-plugin-jest": "29.15.4",
     "globals": "17.7.0",
     "jest": "30.4.2",
     "jest-environment-jsdom": "30.4.1",
@@ -40,7 +40,7 @@
     "node-fetch": "3.3.2",
     "npm-run-all2": "9.0.2",
     "postcss": "8.5.16",
-    "webpack": "5.108.1",
+    "webpack": "5.108.3",
     "webpack-cli": "7.1.0",
     "webpack-dev-server": "5.2.5"
   },
