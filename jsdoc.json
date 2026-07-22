@@ -11,30 +11,27 @@
     "destination": "./_readthedocs/html",
     "recurse": true,
     "verbose": true,
-    "template": "node_modules/clean-jsdoc-theme",
-    "theme_opts": {
-      "add_scripts": "window.initCrowdIn('LizardByte-docs', null);",
-      "default_theme": "fallback-dark",
-      "favicon": "favicon.ico",
-      "include_css": ["./node_modules/@lizardbyte/shared-web/dist/crowdin-clean-jsdoc-css.css"],
-      "include_js": ["./node_modules/@lizardbyte/shared-web/dist/crowdin.js"],
-      "menu": [
-        {
-          "title": "Gamepad Tester",
-          "link": "https://app.lizardbyte.dev/gamepad-tester",
-          "target": "_blank",
-          "class": "",
-          "id": "jekyll-sample"
-        },
-        {
-          "title": "❤ Donate",
-          "link": "https://app.lizardbyte.dev",
-          "target": "_blank",
-          "class": "",
-          "id": "donate"
-        }
-      ]
-    }
+    "template": "node_modules/clean-jsdoc-theme/dist",
+    "customJs": "window.initCrowdIn('LizardByte-docs', null);",
+    "customCssFile": ["./node_modules/@lizardbyte/shared-web/dist/crowdin-clean-jsdoc-css.css"],
+    "customJsFile": ["./node_modules/@lizardbyte/shared-web/dist/crowdin.js"],
+    "favicon": "./docs/static/favicon.ico",
+    "menu": [
+      {
+        "title": "Gamepad Tester",
+        "link": "https://app.lizardbyte.dev/gamepad-tester",
+        "target": "_blank",
+        "class": "",
+        "id": "jekyll-sample"
+      },
+      {
+        "title": "❤ Donate",
+        "link": "https://app.lizardbyte.dev",
+        "target": "_blank",
+        "class": "",
+        "id": "donate"
+      }
+    ]
   },
   "markdown": {
     "hardwrap": false,
