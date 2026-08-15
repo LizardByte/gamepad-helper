@@ -25,7 +25,7 @@ class GamepadHelper {
             XBOX: 'xbox',
             PLAYSTATION: 'playstation',
             SWITCH: 'switch',
-            STANDARD: 'standard'
+            STANDARD: 'standard',
         };
 
         /**
@@ -92,6 +92,7 @@ class GamepadHelper {
                 gamepad_api_ids: [
                     "Xbox 360 Controller (XInput STANDARD GAMEPAD)",
                 ],
+                vendor_product_ids: ["045e:028e"],
                 type: this.CONTROLLER_TYPES.XBOX
             },
             6: {
@@ -99,6 +100,7 @@ class GamepadHelper {
                 gamepad_api_ids: [
                     "HID-compliant game controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13)",
                 ],
+                vendor_product_ids: ["045e:02ea", "045e:0b12", "045e:0b13", "045e:0b20"],
                 type: this.CONTROLLER_TYPES.XBOX
             },
             7: {
@@ -177,12 +179,13 @@ class GamepadHelper {
                     14: 'DLeft',
                     15: 'DRight',
                     16: 'Home',
+                    17: 'Share',
                 },
                 axisMap: {
                     0: 'Left Stick X',
                     1: 'Left Stick Y',
                     2: 'Right Stick X',
-                    3: 'Right Stick Y'
+                    3: 'Right Stick Y',
                 }
             },
 
@@ -212,7 +215,7 @@ class GamepadHelper {
                     0: 'Left Stick X',
                     1: 'Left Stick Y',
                     2: 'Right Stick X',
-                    3: 'Right Stick Y'
+                    3: 'Right Stick Y',
                 }
             },
 
@@ -242,7 +245,7 @@ class GamepadHelper {
                     0: 'Left Stick X',
                     1: 'Left Stick Y',
                     2: 'Right Stick X',
-                    3: 'Right Stick Y'
+                    3: 'Right Stick Y',
                 }
             },
 
@@ -253,7 +256,7 @@ class GamepadHelper {
                     0: 'Axis 0',
                     1: 'Axis 1',
                     2: 'Axis 2',
-                    3: 'Axis 3'
+                    3: 'Axis 3',
                 }
             }
         };
@@ -307,7 +310,8 @@ class GamepadHelper {
                     13: 'D-Pad Down.svg',
                     14: 'D-Pad Left.svg',
                     15: 'D-Pad Right.svg',
-                    16: 'Home.svg'
+                    16: 'Home.svg',
+                    17: 'Share.svg',
                 }
             },
             [this.CONTROLLER_TYPES.PLAYSTATION]: {
@@ -330,7 +334,7 @@ class GamepadHelper {
                     14: 'D-Pad Left.svg',
                     15: 'D-Pad Right.svg',
                     16: 'Home.svg',
-                    17: 'Touch Pad Press.svg'
+                    17: 'Touch Pad Press.svg',
                 }
             },
             [this.CONTROLLER_TYPES.SWITCH]: {
@@ -353,7 +357,7 @@ class GamepadHelper {
                     14: 'Pro D-Pad Left.svg',
                     15: 'Pro D-Pad Right.svg',
                     16: 'Home.svg',
-                    17: 'Capture.svg'
+                    17: 'Capture.svg',
                 }
             }
         };
