@@ -30,7 +30,7 @@ let config = {
         // Put the Codecov webpack plugin after all other plugins
         codecovWebpackPlugin({
           enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-          bundleName: "shared-web",
+          bundleName: "gamepad-helper",
           uploadToken: process.env.CODECOV_TOKEN,
         }),
     ],

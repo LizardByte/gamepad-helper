@@ -51,6 +51,13 @@ describe('GamepadHelper', () => {
             expect(helper.exactIdLookup['Pro Controller (STANDARD GAMEPAD Vendor: 057e Product: 2009)'].type).toBe(helper.CONTROLLER_TYPES.SWITCH);
         });
 
+        test('initializes vendorProductLookup correctly', () => {
+            expect(helper.vendorProductLookup['054c:05c4'].name).toBe('Sony DualShock (PS4)');
+            expect(helper.vendorProductLookup['054c:0ce6'].name).toBe('Sony DualSense (PS5)');
+            expect(helper.vendorProductLookup['057e:2009'].name).toBe('Nintendo Switch Pro Controller');
+            expect(helper.vendorProductLookup['1209:0001'].name).toBe('Generic Gamepad');
+        });
+
         test('initializes controller mappings correctly', () => {
             expect(helper.controllerMappings).toBeDefined();
             expect(helper.controllerMappings[helper.CONTROLLER_TYPES.XBOX].buttonMap[0]).toBe('A');
@@ -85,6 +92,81 @@ describe('GamepadHelper', () => {
                 type: helper.CONTROLLER_TYPES.XBOX,
                 name: 'Xbox'
             });
+        });
+
+        test('preserves browser-provided XInput labels', () => {
+            expect(helper.getGamepadInfo('xinput')).toEqual({
+                type: helper.CONTROLLER_TYPES.XBOX,
+                name: 'Xbox'
+            });
+            expect(helper.getGamepadInfo('Xbox 360 Controller (XInput STANDARD GAMEPAD)')).toEqual({
+                type: helper.CONTROLLER_TYPES.XBOX,
+                name: 'Xbox 360'
+            });
+        });
+
+        test.each([
+            {
+                browserController: 'Firefox DualShock 4',
+                gamepadId: '054c-05c4-HID VHF Driver',
+                type: 'playstation',
+                name: 'Sony DualShock (PS4)'
+            },
+            {
+                browserController: 'Firefox DualSense',
+                gamepadId: '054c-0ce6-HID VHF Driver',
+                type: 'playstation',
+                name: 'Sony DualSense (PS5)'
+            },
+            {
+                browserController: 'Firefox Switch Pro',
+                gamepadId: '057e-2009-HID VHF Driver',
+                type: 'switch',
+                name: 'Nintendo Switch Pro Controller'
+            },
+            {
+                browserController: 'Firefox Generic',
+                gamepadId: '1209-0001-HID VHF Driver',
+                type: 'standard',
+                name: 'Generic Gamepad'
+            },
+            {
+                browserController: 'Chrome DualShock 4',
+                gamepadId: 'HID VHF Driver (STANDARD GAMEPAD Vendor: 054c Product: 05c4)',
+                type: 'playstation',
+                name: 'Sony DualShock (PS4)'
+            },
+            {
+                browserController: 'Chrome DualSense',
+                gamepadId: 'HID VHF Driver (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)',
+                type: 'playstation',
+                name: 'Sony DualSense (PS5)'
+            },
+            {
+                browserController: 'Chrome Switch Pro',
+                gamepadId: 'HID VHF Driver (STANDARD GAMEPAD Vendor: 057e Product: 2009)',
+                type: 'switch',
+                name: 'Nintendo Switch Pro Controller'
+            },
+            {
+                browserController: 'Chrome Generic',
+                gamepadId: 'HID VHF Driver (Vendor: 1209 Product: 0001)',
+                type: 'standard',
+                name: 'Generic Gamepad'
+            },
+        ])('returns a VID/PID match for $browserController', ({ gamepadId, type, name }) => {
+            expect(helper.getGamepadInfo(gamepadId)).toEqual({ type, name });
+        });
+
+        test('normalizes shortened and uppercase VID/PID values', () => {
+            expect(helper.getGamepadInfo('54C-5C4-HID VHF Driver')).toEqual({
+                type: helper.CONTROLLER_TYPES.PLAYSTATION,
+                name: 'Sony DualShock (PS4)'
+            });
+        });
+
+        test('does not extract a VID/PID from a missing ID', () => {
+            expect(helper.extractVendorProductId(null)).toBeNull();
         });
 
         test('returns generic info for unknown gamepadId', () => {
