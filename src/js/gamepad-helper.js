@@ -2,6 +2,15 @@
  * Gamepad Helper Module
  * This module provides a set of utilities for working with gamepads in web applications.
  */
+
+/**
+ * Controller identity metadata used by browser ID lookups.
+ * @typedef {Object} GamepadIdentityMapping
+ * @property {string} name - Human-readable controller name
+ * @property {string[]} gamepad_api_ids - Known complete Gamepad API IDs
+ * @property {string[]} [vendor_product_ids] - Additional normalized `vendor:product` IDs
+ * @property {string} type - Controller type
+ */
 class GamepadHelper {
     constructor() {
         /**
@@ -22,7 +31,7 @@ class GamepadHelper {
         /**
          * Exact Gamepad Mappings
          * This object maps specific gamepad API IDs to controller types and names.
-         * @type {Object.<number, {name: string, gamepad_api_ids: string[], type: string}>}
+         * @type {Object.<number, GamepadIdentityMapping>}
          */
         this.exactGamepadMappings = {
             0: {
@@ -35,6 +44,7 @@ class GamepadHelper {
                     "Core (Plus) Wired Controller (Vendor: 20d6 Product: a711)",
                     "Wireless Controller Extended Gamepad",
                 ],
+                vendor_product_ids: ["1209:0001"],
                 type: this.CONTROLLER_TYPES.STANDARD,
             },
             1: {
@@ -117,12 +127,27 @@ class GamepadHelper {
         /**
          * Exact ID Lookup
          * This object maps gamepad API IDs to their respective controller mappings.
-         * @type {Object.<string, {name: string, gamepad_api_ids: string[], type: string}>}
+         * @type {Object.<string, GamepadIdentityMapping>}
          */
         this.exactIdLookup = {};
+
+        /**
+         * Vendor/product lookup used when browser-specific product names differ.
+         * @type {Object.<string, GamepadIdentityMapping>}
+         */
+        this.vendorProductLookup = {};
         Object.values(this.exactGamepadMappings).forEach(mapping => {
             mapping.gamepad_api_ids.forEach(id => {
                 this.exactIdLookup[id] = mapping;
+
+                const vendorProductId = this.extractVendorProductId(id);
+                if (vendorProductId) {
+                    this.vendorProductLookup[vendorProductId] = mapping;
+                }
+            });
+
+            mapping.vendor_product_ids?.forEach(vendorProductId => {
+                this.vendorProductLookup[vendorProductId] = mapping;
             });
         });
 
@@ -352,6 +377,29 @@ class GamepadHelper {
     }
 
     /**
+     * Extract a normalized vendor/product identifier from a browser Gamepad API ID.
+     * @param {string|null} gamepadId - The ID of the gamepad as given by the Gamepad API
+     * @returns {string|null} A lower-case, zero-padded `vendor:product` identifier
+     */
+    extractVendorProductId(gamepadId) {
+        if (!gamepadId) {
+            return null;
+        }
+
+        const chromiumMatch = /Vendor:\s*([\da-f]{1,4})\s+Product:\s*([\da-f]{1,4})/i.exec(gamepadId);
+        const firefoxMatch = /^([\da-f]{1,4})-([\da-f]{1,4})-/i.exec(gamepadId);
+        const match = chromiumMatch || firefoxMatch;
+
+        if (!match) {
+            return null;
+        }
+
+        const vendorId = match[1].padStart(4, '0').toLowerCase();
+        const productId = match[2].padStart(4, '0').toLowerCase();
+        return `${vendorId}:${productId}`;
+    }
+
+    /**
      * Get gamepad information based on the gamepad ID
      * @param {string|null} gamepadId - The ID of the gamepad as given by the Gamepad API
      * @returns {{type: string, name: string}} Controller type and name information
@@ -370,6 +418,15 @@ class GamepadHelper {
             return {
                 type: exactMatch.type,
                 name: exactMatch.name
+            };
+        }
+
+        const vendorProductId = this.extractVendorProductId(gamepadId);
+        const vendorProductMatch = vendorProductId ? this.vendorProductLookup[vendorProductId] : null;
+        if (vendorProductMatch) {
+            return {
+                type: vendorProductMatch.type,
+                name: vendorProductMatch.name
             };
         }
 
