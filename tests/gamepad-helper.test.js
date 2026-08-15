@@ -56,6 +56,11 @@ describe('GamepadHelper', () => {
             expect(helper.vendorProductLookup['054c:0ce6'].name).toBe('Sony DualSense (PS5)');
             expect(helper.vendorProductLookup['057e:2009'].name).toBe('Nintendo Switch Pro Controller');
             expect(helper.vendorProductLookup['1209:0001'].name).toBe('Generic Gamepad');
+            expect(helper.vendorProductLookup['045e:028e'].name).toBe('Xbox 360');
+            expect(helper.vendorProductLookup['045e:02ea'].name).toBe('Xbox One/Series');
+            expect(helper.vendorProductLookup['045e:0b12'].name).toBe('Xbox One/Series');
+            expect(helper.vendorProductLookup['045e:0b13'].name).toBe('Xbox One/Series');
+            expect(helper.vendorProductLookup['045e:0b20'].name).toBe('Xbox One/Series');
         });
 
         test('initializes controller mappings correctly', () => {
@@ -131,6 +136,18 @@ describe('GamepadHelper', () => {
                 name: 'Generic Gamepad'
             },
             {
+                browserController: 'Firefox Xbox 360',
+                gamepadId: '045e-028e-Sunshine (libvirtualhid) X-Box 360 Controller',
+                type: 'xbox',
+                name: 'Xbox 360'
+            },
+            {
+                browserController: 'Firefox Xbox Series',
+                gamepadId: '045e-0b13-Sunshine (libvirtualhid) X-Box Series Controller',
+                type: 'xbox',
+                name: 'Xbox One/Series'
+            },
+            {
                 browserController: 'Chrome DualShock 4',
                 gamepadId: 'HID VHF Driver (STANDARD GAMEPAD Vendor: 054c Product: 05c4)',
                 type: 'playstation',
@@ -153,6 +170,24 @@ describe('GamepadHelper', () => {
                 gamepadId: 'HID VHF Driver (Vendor: 1209 Product: 0001)',
                 type: 'standard',
                 name: 'Generic Gamepad'
+            },
+            {
+                browserController: 'Chrome Xbox 360',
+                gamepadId: 'Sunshine (libvirtualhid) X-Box 360 Controller (STANDARD GAMEPAD Vendor: 045e Product: 028e)',
+                type: 'xbox',
+                name: 'Xbox 360'
+            },
+            {
+                browserController: 'Chrome Xbox One',
+                gamepadId: 'Sunshine (libvirtualhid) X-Box One Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b20)',
+                type: 'xbox',
+                name: 'Xbox One/Series'
+            },
+            {
+                browserController: 'Chrome Xbox Series',
+                gamepadId: 'Sunshine (libvirtualhid) X-Box Series Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13)',
+                type: 'xbox',
+                name: 'Xbox One/Series'
             },
         ])('returns a VID/PID match for $browserController', ({ gamepadId, type, name }) => {
             expect(helper.getGamepadInfo(gamepadId)).toEqual({ type, name });
@@ -201,6 +236,8 @@ describe('GamepadHelper', () => {
             expect(helper.getButtonName(helper.CONTROLLER_TYPES.XBOX, 0)).toBe('A');
             expect(helper.getButtonName(helper.CONTROLLER_TYPES.XBOX, 4)).toBe('LB');
             expect(helper.getButtonName(helper.CONTROLLER_TYPES.XBOX, 12)).toBe('DUp');
+            expect(helper.getButtonName(helper.CONTROLLER_TYPES.XBOX, 17)).toBe('Share');
+            expect(helper.getButtonName(helper.CONTROLLER_TYPES.XBOX, 18)).toBe('B18');
         });
 
         test('returns correct button names for PlayStation controller', () => {
@@ -391,6 +428,11 @@ describe('GamepadHelper', () => {
         test('returns correct path for Xbox controller buttons', () => {
             const path = helper.getButtonImagePath(helper.CONTROLLER_TYPES.XBOX, 0);
             expect(path).toBe('/assets/img/gamepads/xbox/Buttons Outline/White/SVG/A.svg');
+        });
+
+        test('returns the Share icon for Xbox button 17', () => {
+            const path = helper.getButtonImagePath(helper.CONTROLLER_TYPES.XBOX, 17);
+            expect(path).toBe('/assets/img/gamepads/xbox/Buttons Outline/White/SVG/Share.svg');
         });
 
         test('returns correct path for PlayStation controller buttons', () => {
