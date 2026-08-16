@@ -49,6 +49,49 @@ Helper library for Gamepad API. Helps with detecting type of gamepad and mapping
    npm install @lizardbyte/gamepad-helper --ignore-scripts
    ```
 
+## Controller visuals
+
+`GamepadHelper` can render the packaged Xbox, PlayStation, and Nintendo Switch controller artwork and keep its buttons,
+triggers, and sticks synchronized with a browser `Gamepad` object. The consumer controls the asset location, color scheme,
+layout, and theme styling.
+
+```js
+const gamepadHelper = new GamepadHelper();
+const visualizer = gamepadHelper.createVisualizer(
+  document.getElementById('controller-visual'),
+  {
+    assetBasePath: '/assets/img/gamepads/',
+    colorScheme: 'White',
+  },
+);
+
+visualizer.mount(gamepad);
+visualizer.update(navigator.getGamepads()[gamepad.index]);
+
+// Remount the current controller with light-theme artwork.
+visualizer.setColorScheme('Black');
+
+// Remove the generated DOM when the visual is no longer needed.
+visualizer.destroy();
+```
+
+The renderer emits stable `gamepad-visual-*`, `gamepad-trigger-*`, and `gamepad-stick-indicator` classes for consumer
+styles. Custom renderers can use `getControllerVisualConfig()` and `getControllerImagePath()` without duplicating the
+asset-relative metadata.
+
+## Compatibility issues
+
+Use `getCompatibilityIssues()` to keep browser/controller compatibility knowledge in the library while presenting the
+warning in the consumer's own UI.
+
+```js
+const issues = gamepadHelper.getCompatibilityIssues(gamepad);
+
+issues.forEach(issue => {
+  console.warn(issue.message, issue.issueUrl);
+});
+```
+
 ## Attribution
 
 - Button Icons and Controls were created by Zacksly (Licensed under CC BY 3.0 - https://zacksly.itch.io)
