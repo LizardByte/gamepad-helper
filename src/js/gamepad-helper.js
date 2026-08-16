@@ -3,6 +3,15 @@
  * This module provides a set of utilities for working with gamepads in web applications.
  */
 
+const {
+    GamepadVisualizer,
+    getControllerImagePath,
+    getControllerVisualConfig,
+} = require('./gamepad-visualizer');
+
+const FIREFOX_SWITCH_GAMEPAD_FIXED_VERSION = 155;
+const FIREFOX_SWITCH_GAMEPAD_ISSUE_URL = 'https://bugzilla.mozilla.org/show_bug.cgi?id=1704419';
+
 /**
  * Controller identity metadata used by browser ID lookups.
  * @typedef {Object} GamepadIdentityMapping
@@ -373,6 +382,40 @@ class GamepadHelper {
     }
 
     /**
+     * Get the image path for a full controller visual.
+     * @param {string} controllerType - The type of controller (XBOX, PLAYSTATION, SWITCH)
+     * @param {string} [basePath='/assets/img/gamepads/'] - The base path for the images
+     * @param {string} [colorScheme='White'] - The image color ('Black' or 'White')
+     * @returns {string|null} Encoded controller image path, or null when unavailable
+     */
+    getControllerImagePath(
+        controllerType,
+        basePath = '/assets/img/gamepads/',
+        colorScheme = 'White',
+    ) {
+        return getControllerImagePath(controllerType, basePath, colorScheme);
+    }
+
+    /**
+     * Get a copy of the visual definition for a controller type.
+     * @param {string} controllerType - The type of controller (XBOX, PLAYSTATION, SWITCH)
+     * @returns {Object|null} Controller visual definition, or null when unavailable
+     */
+    getControllerVisualConfig(controllerType) {
+        return getControllerVisualConfig(controllerType);
+    }
+
+    /**
+     * Create a reusable visualizer in a caller-provided DOM container.
+     * @param {Element} container - DOM element that will contain the visual
+     * @param {Object} [options] - Visualizer options
+     * @returns {GamepadVisualizer} Controller visualizer
+     */
+    createVisualizer(container, options = {}) {
+        return new GamepadVisualizer(this, container, options);
+    }
+
+    /**
      * Check if the Gamepad API is supported in the current browser
      * @returns {boolean} True if supported, false otherwise
      */
@@ -447,6 +490,55 @@ class GamepadHelper {
      */
     detectControllerType(gamepadId) {
         return this.getGamepadInfo(gamepadId).type;
+    }
+
+    /**
+     * Extract the major Firefox version from a user-agent string.
+     * @param {string|null} userAgent - Browser user-agent string
+     * @returns {number|null} Firefox major version, or null for other browsers
+     */
+    getFirefoxMajorVersion(userAgent) {
+        if (typeof userAgent !== 'string') {
+            return null;
+        }
+
+        const match = /\bFirefox\/(\d+)/.exec(userAgent);
+        return match ? Number.parseInt(match[1], 10) : null;
+    }
+
+    /**
+     * Get known browser/controller compatibility issues for a gamepad.
+     * @param {Gamepad|null} gamepad - Gamepad to inspect
+     * @param {Object} [options] - Detection options
+     * @param {string} [options.userAgent=navigator.userAgent] - Browser user-agent string
+     * @returns {Object[]} Structured compatibility issues
+     */
+    getCompatibilityIssues(gamepad, options = {}) {
+        if (!gamepad) {
+            return [];
+        }
+
+        const userAgent = options.userAgent ?? globalThis.navigator?.userAgent ?? '';
+        const firefoxVersion = this.getFirefoxMajorVersion(userAgent);
+        const controllerInfo = this.getGamepadInfo(gamepad.id);
+        if (
+            firefoxVersion === null
+            || firefoxVersion >= FIREFOX_SWITCH_GAMEPAD_FIXED_VERSION
+            || controllerInfo.type !== this.CONTROLLER_TYPES.SWITCH
+        ) {
+            return [];
+        }
+
+        return [{
+            code: 'firefox-switch-gamepad-mapping',
+            severity: 'warning',
+            browser: 'firefox',
+            browserVersion: firefoxVersion,
+            controllerType: controllerInfo.type,
+            fixedVersion: FIREFOX_SWITCH_GAMEPAD_FIXED_VERSION,
+            issueUrl: FIREFOX_SWITCH_GAMEPAD_ISSUE_URL,
+            message: `Firefox versions before ${FIREFOX_SWITCH_GAMEPAD_FIXED_VERSION} can report incorrect buttons and axes for Nintendo Switch controllers.`,
+        }];
     }
 
     /**
@@ -589,6 +681,8 @@ class GamepadHelper {
 if (globalThis.window) {
     globalThis.GamepadHelper = GamepadHelper;
 }
+
+GamepadHelper.GamepadVisualizer = GamepadVisualizer;
 
 // Export the GamepadHelper class
 module.exports = GamepadHelper;

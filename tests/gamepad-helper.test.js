@@ -387,6 +387,22 @@ describe('GamepadHelper', () => {
                 expect.anything()
             );
         });
+
+        test('tries the dual-rumble fallback when the actuator type is missing', async () => {
+            console.warn = jest.fn();  // report generation fails if this is not mocked
+            mockGamepad.vibrationActuator = {
+                playEffect: jest.fn()
+                    .mockImplementationOnce(() => { throw new Error('Unknown type'); })
+                    .mockResolvedValueOnce({ success: true })
+            };
+
+            await helper.vibrate(mockGamepad);
+
+            expect(mockGamepad.vibrationActuator.playEffect).toHaveBeenLastCalledWith(
+                'dual-rumble',
+                expect.anything()
+            );
+        });
     });
 
     describe('stopVibration', () => {
