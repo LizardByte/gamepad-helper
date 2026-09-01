@@ -110,86 +110,28 @@ describe('GamepadHelper', () => {
             });
         });
 
-        test.each([
-            {
-                browserController: 'Firefox DualShock 4',
-                gamepadId: '054c-05c4-HID VHF Driver',
-                type: 'playstation',
-                name: 'Sony DualShock (PS4)'
-            },
-            {
-                browserController: 'Firefox DualSense',
-                gamepadId: '054c-0ce6-HID VHF Driver',
-                type: 'playstation',
-                name: 'Sony DualSense (PS5)'
-            },
-            {
-                browserController: 'Firefox Switch Pro',
-                gamepadId: '057e-2009-HID VHF Driver',
-                type: 'switch',
-                name: 'Nintendo Switch Pro Controller'
-            },
-            {
-                browserController: 'Firefox Generic',
-                gamepadId: '1209-0001-HID VHF Driver',
-                type: 'standard',
-                name: 'Generic Gamepad'
-            },
-            {
-                browserController: 'Firefox Xbox 360',
-                gamepadId: '045e-028e-Sunshine (libvirtualhid) X-Box 360 Controller',
-                type: 'xbox',
-                name: 'Xbox 360'
-            },
-            {
-                browserController: 'Firefox Xbox Series',
-                gamepadId: '045e-0b13-Sunshine (libvirtualhid) X-Box Series Controller',
-                type: 'xbox',
-                name: 'Xbox One/Series'
-            },
-            {
-                browserController: 'Chrome DualShock 4',
-                gamepadId: 'HID VHF Driver (STANDARD GAMEPAD Vendor: 054c Product: 05c4)',
-                type: 'playstation',
-                name: 'Sony DualShock (PS4)'
-            },
-            {
-                browserController: 'Chrome DualSense',
-                gamepadId: 'HID VHF Driver (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)',
-                type: 'playstation',
-                name: 'Sony DualSense (PS5)'
-            },
-            {
-                browserController: 'Chrome Switch Pro',
-                gamepadId: 'HID VHF Driver (STANDARD GAMEPAD Vendor: 057e Product: 2009)',
-                type: 'switch',
-                name: 'Nintendo Switch Pro Controller'
-            },
-            {
-                browserController: 'Chrome Generic',
-                gamepadId: 'HID VHF Driver (Vendor: 1209 Product: 0001)',
-                type: 'standard',
-                name: 'Generic Gamepad'
-            },
-            {
-                browserController: 'Chrome Xbox 360',
-                gamepadId: 'Sunshine (libvirtualhid) X-Box 360 Controller (STANDARD GAMEPAD Vendor: 045e Product: 028e)',
-                type: 'xbox',
-                name: 'Xbox 360'
-            },
-            {
-                browserController: 'Chrome Xbox One',
-                gamepadId: 'Sunshine (libvirtualhid) X-Box One Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b20)',
-                type: 'xbox',
-                name: 'Xbox One/Series'
-            },
-            {
-                browserController: 'Chrome Xbox Series',
-                gamepadId: 'Sunshine (libvirtualhid) X-Box Series Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13)',
-                type: 'xbox',
-                name: 'Xbox One/Series'
-            },
-        ])('returns a VID/PID match for $browserController', ({ gamepadId, type, name }) => {
+        const vendorProductIdMatches = [
+            ['Firefox DualShock 4', '054c-05c4-HID VHF Driver', 'playstation', 'Sony DualShock (PS4)'],
+            ['Firefox DualSense', '054c-0ce6-HID VHF Driver', 'playstation', 'Sony DualSense (PS5)'],
+            ['Firefox Switch Pro', '057e-2009-HID VHF Driver', 'switch', 'Nintendo Switch Pro Controller'],
+            ['Firefox Generic', '1209-0001-HID VHF Driver', 'standard', 'Generic Gamepad'],
+            ['Firefox Xbox 360', '045e-028e-Sunshine (libvirtualhid) X-Box 360 Controller', 'xbox', 'Xbox 360'],
+            ['Firefox Xbox Series', '045e-0b13-Sunshine (libvirtualhid) X-Box Series Controller', 'xbox', 'Xbox One/Series'],
+            ['Chrome DualShock 4', 'HID VHF Driver (STANDARD GAMEPAD Vendor: 054c Product: 05c4)', 'playstation', 'Sony DualShock (PS4)'],
+            ['Chrome DualSense', 'HID VHF Driver (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)', 'playstation', 'Sony DualSense (PS5)'],
+            ['Chrome Switch Pro', 'HID VHF Driver (STANDARD GAMEPAD Vendor: 057e Product: 2009)', 'switch', 'Nintendo Switch Pro Controller'],
+            ['Chrome Generic', 'HID VHF Driver (Vendor: 1209 Product: 0001)', 'standard', 'Generic Gamepad'],
+            ['Chrome Xbox 360', 'Sunshine (libvirtualhid) X-Box 360 Controller (STANDARD GAMEPAD Vendor: 045e Product: 028e)', 'xbox', 'Xbox 360'],
+            ['Chrome Xbox One', 'Sunshine (libvirtualhid) X-Box One Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b20)', 'xbox', 'Xbox One/Series'],
+            ['Chrome Xbox Series', 'Sunshine (libvirtualhid) X-Box Series Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13)', 'xbox', 'Xbox One/Series'],
+        ].map(([browserController, gamepadId, type, name]) => ({
+            browserController,
+            gamepadId,
+            type,
+            name,
+        }));
+
+        test.each(vendorProductIdMatches)('returns a VID/PID match for $browserController', ({ gamepadId, type, name }) => {
             expect(helper.getGamepadInfo(gamepadId)).toEqual({ type, name });
         });
 
