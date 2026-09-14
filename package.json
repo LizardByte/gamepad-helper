@@ -21,8 +21,8 @@
     "README.md"
   ],
   "devDependencies": {
-    "@babel/core": "8.0.1",
-    "@babel/preset-env": "8.0.2",
+    "@babel/core": "8.0.5",
+    "@babel/preset-env": "8.0.5",
     "@codecov/webpack-plugin": "2.0.1",
     "@eslint/js": "10.0.1",
     "@jest/globals": "30.5.1",
@@ -40,7 +40,7 @@
     "node-fetch": "3.3.2",
     "npm-run-all2": "9.0.3",
     "postcss": "8.5.28",
-    "webpack": "5.110.3",
+    "webpack": "5.111.0",
     "webpack-cli": "7.2.3",
     "webpack-dev-server": "6.0.0"
   },
