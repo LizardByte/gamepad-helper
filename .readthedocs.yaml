@@ -4,9 +4,15 @@ build:
   os: "ubuntu-24.04"
   tools:
     nodejs: "22"
+    python: "3.14"
   commands:
-    - 'echo "output directory: ${READTHEDOCS_OUTPUT}html"'
     - npm ci --ignore-scripts
-    - npm run generate-docs
-    # debug output
-    - cd ${READTHEDOCS_OUTPUT}html && ls -la -R
+    - python -m pip install 'lizardbyte-dockle[all] @ https://github.com/LizardByte/dockle/releases/download/v2026.918.203650/lizardbyte_dockle-2026.918.203650-py3-none-any.whl'
+    - env PYTHONPATH=third-party/dockle/src python -m dockle check
+    - env PYTHONPATH=third-party/dockle/src python -m dockle build
+    - mkdir -p "${READTHEDOCS_OUTPUT}html/"
+    - cp -r _site/. "${READTHEDOCS_OUTPUT}html/"
+
+submodules:
+  include: all
+  recursive: true
