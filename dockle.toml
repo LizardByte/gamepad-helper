@@ -1,0 +1,25 @@
+[project]
+name = "gamepad-helper"
+version = "0.0.0"
+description = "Helper library for the Gamepad API."
+repository = "https://github.com/LizardByte/gamepad-helper"
+logo = "https://raw.githubusercontent.com/LizardByte/.github/refs/heads/master/branding/logos/logo.svg"
+favicon = "docs/static/favicon.ico"
+
+[build]
+output = "_site"
+work = ".dockle"
+strict = true
+clean = true
+
+[[targets]]
+name = "api"
+title = "gamepad-helper API"
+framework = "jsdoc"
+source = "src"
+home = true
+
+[targets.jsdoc]
+inputs = ["src"]
+readme = "README.md"
+include_pattern = '.+\.js$'
