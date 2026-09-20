@@ -23,7 +23,7 @@ module.exports = {
   },
   source: {
     include: ["src"],
-    includePattern: ".+\\.js$",
+    includePattern: String.raw`.+\.js$`,
   },
   templates: {
     dockle: {
