@@ -26,7 +26,7 @@
     "@codecov/webpack-plugin": "2.0.1",
     "@eslint/js": "10.0.1",
     "@jest/globals": "30.5.1",
-    "@lizardbyte/dockle": "2026.920.41323",
+    "@lizardbyte/dockle": "2026.920.132930",
     "babel-loader": "10.1.1",
     "cross-env": "10.1.0",
     "eslint": "10.10.0",
