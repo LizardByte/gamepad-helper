@@ -1,12 +1,18 @@
 ---
+# .readthedocs.yaml
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
 version: 2
 build:
   os: "ubuntu-24.04"
   tools:
-    nodejs: "22"
-  commands:
-    - 'echo "output directory: ${READTHEDOCS_OUTPUT}html"'
-    - npm ci --ignore-scripts
-    - npm run generate-docs
-    # debug output
-    - cd ${READTHEDOCS_OUTPUT}html && ls -la -R
+    nodejs: "24"
+  jobs:
+    build:
+      html:
+        - |
+          npm ci --ignore-scripts
+          npm run generate-docs
+          mkdir -p "${READTHEDOCS_OUTPUT}html/"
+          cp -r _site/. "${READTHEDOCS_OUTPUT}html/"
