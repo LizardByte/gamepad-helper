@@ -28,11 +28,11 @@ module.exports = {
   templates: {
     dockle: {
       extraJavascript: [
-        "https://cdn.jsdelivr.net/npm/@lizardbyte/shared-web@2026.920.12131/dist/crowdin.js",
+        "https://cdn.jsdelivr.net/npm/@lizardbyte/shared-web@2026.925.2800/dist/crowdin.js",
         "docs/static/js/crowdin.js",
       ],
       extraStylesheets: [
-        "https://cdn.jsdelivr.net/npm/@lizardbyte/shared-web@2026.920.12131/dist/crowdin-dockle-css.css",
+        "https://cdn.jsdelivr.net/npm/@lizardbyte/shared-web@2026.925.2800/dist/crowdin-dockle-css.css",
       ],
       favicon: "docs/static/favicon.ico",
       logo: "https://raw.githubusercontent.com/LizardByte/.github/refs/heads/master/branding/logos/logo.svg",
